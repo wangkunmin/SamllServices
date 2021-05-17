@@ -22,6 +22,7 @@
         <mybatis.spring.boot.verison>1.3.0</mybatis.spring.boot.verison>
     </properties>
 
+    <!--只做版本管理不引入实际的jar包依赖-->
     <dependencyManagement>
         <dependencies>
             <!--spring boot 2.2.2-->
