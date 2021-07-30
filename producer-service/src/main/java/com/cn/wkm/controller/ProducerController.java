@@ -15,7 +15,7 @@ public class ProducerController {
     @PostMapping("/put/producer")
     public Result putKV(@RequestBody Producer producer){
         redisTemplate.opsForValue().set(producer.getName(),producer.getText());
-       return new Result<>(200,"添加成功");
+       return new Result(200,"添加成功");
     }
 
     @GetMapping("/get/{key}")
