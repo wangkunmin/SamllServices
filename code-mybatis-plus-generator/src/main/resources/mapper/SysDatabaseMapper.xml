@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.wkm.mapper.SysDatabaseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cn.wkm.entity.SysDatabase">
+        <result column="id" property="id" />
+        <result column="create_at" property="createAt" />
+        <result column="create_by" property="createBy" />
+        <result column="update_at" property="updateAt" />
+        <result column="update_by" property="updateBy" />
+        <result column="is_delete" property="isDelete" />
+        <result column="db_code" property="dbCode" />
+        <result column="current_size" property="currentSize" />
+        <result column="max_size" property="maxSize" />
+        <result column="ip" property="ip" />
+        <result column="port" property="port" />
+        <result column="db_name" property="dbName" />
+        <result column="user_name" property="userName" />
+        <result column="password" property="password" />
+        <result column="is_full" property="isFull" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_at,
+        create_by,
+        update_at,
+        update_by,
+        is_delete,
+        db_code, current_size, max_size, ip, port, db_name, user_name, password, is_full
+    </sql>
+
+</mapper>
