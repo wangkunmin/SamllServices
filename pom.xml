@@ -44,6 +44,7 @@
         <devtools.verison>2.2.1.RELEASE</devtools.verison>
         <mybatis.verison>1.3.0</mybatis.verison>
         <mybatis.plus.verison>3.4.3.1</mybatis.plus.verison>
+        <pagehelper.verison>1.3.0</pagehelper.verison>
         <hutools.verison> 5.6.5</hutools.verison>
 
         <swagger.verison>2.9.2</swagger.verison>
@@ -99,11 +100,18 @@
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis.verison}</version>
             </dependency>
+            <!-- mybatis-plus-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis.plus.verison}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.verison}</version>
+            </dependency>
+
             <!-- devtools热部署工具-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

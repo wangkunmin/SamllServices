@@ -1,4 +1,4 @@
-package com.cn.wkm;
+package com.cn.wkm.utils;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
+import com.cn.wkm.base.constant.Constant;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,34 +25,18 @@ import java.util.List;
  * @Date 2021/7/30 17:54
  * @ModifyDate 2021/7/30 17:54
  */
-public class CodeGenerator {
-    /**
-     * 参数配置
-     * @param args
-     */
-    //作者
-    private static final String AUTHOR = "wkm";
-    //表名前缀
-    //private static final String[] TABLEPREFIX = {"t_"};
-    private static final String[] TABLEPREFIX = {"small_config."};
-    //表名（使用小写）
-    private static final String[] TABLENAMES = {"sys_database","sys_user_database"};
-    //包名称
-    private static final String PACKAGENAME = "com.cn.wkm";
-    //用户名
-    private static final String USERNAME = "small";
-    //密码
-    private static final String PASSWORD = "123456";
-    //数据库url
-    private static final String URL = "jdbc:mysql://192.168.27.152:3306/small_config?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai";
+public class BaseCodeGenerator {
+    public static String superEntity = "com.cn.wkm.base.entity.BaseEntity";
+    public static String[] superEntityColumns ={"id", "update_by", "update_at", "create_by", "create_at","is_delete"};
 
-    private static final String DRIVERNAME = "com.mysql.jdbc.Driver";
+    public static String templateType = ".ftl";
+    public static String controllerTemplate = "/templates/controller.java";
+    public static String serviceTemplate = "/templates/service.java";
+    public static String serviceImplTemplate = "/templates/serviceImpl.java";
+    public static String mapperXmlTemplate = "/templates/mapper.xml";
+    public static String mapperTemplate = "/templates/mapper.java";
+    public static String entityTemplate = "/templates/entity.java";
 
-    private static String PROJECTPATH = "";
-    static {
-        // 当前项目绝对路径
-        PROJECTPATH = CodeGenerator.class.getClassLoader().getResource("").getPath().replace("target/classes/","");
-    }
 
 
     public static DataSourceConfig dataSourceConfig(){
@@ -61,10 +45,10 @@ public class CodeGenerator {
          */
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL)
-                .setDriverName(DRIVERNAME)
-                .setUsername(USERNAME)
-                .setPassword(PASSWORD)
-                .setUrl(URL);
+                .setDriverName(Constant.DRIVERNAME)
+                .setUsername(Constant.USERNAME)
+                .setPassword(Constant.PASSWORD)
+                .setUrl(Constant.URL);
         return dsc;
     }
     public static GlobalConfig globalConfig(){
@@ -73,11 +57,11 @@ public class CodeGenerator {
          */
         GlobalConfig gc = new GlobalConfig();
 
-        String outPutDir = PROJECTPATH + "src/main/java";
+        String outPutDir = Constant.PROJECTPATH + "src/main/java";
         // 输出路径
         gc.setOutputDir(outPutDir) //设置输出路径
                 .setFileOverride(true) //第二次生成会把第一次生成的覆盖掉
-                .setAuthor(AUTHOR)
+                .setAuthor(Constant.AUTHOR)
                 .setOpen(false)
                 .setSwagger2(true)
                 .setBaseResultMap(true) //基本结果集合
@@ -91,19 +75,19 @@ public class CodeGenerator {
                 .setControllerName("%sController");
         return gc;
     }
-    public static StrategyConfig dataTable(){
+    public static StrategyConfig dataTable(String superEntity,String[] superEntityColumns){
         /**
          * 数据库表配置
          */
         StrategyConfig strategy = new StrategyConfig();
         strategy.setSkipView(true) //是否跳过试图 默认false
-                .setTablePrefix(TABLEPREFIX)
+                .setTablePrefix(Constant.TABLEPREFIX)
                 .setRestControllerStyle(true)
                 .setEntityLombokModel(true)
                 .setNaming(NamingStrategy.underline_to_camel) //数据库表映射到实体的命名策略
                 .setColumnNaming(NamingStrategy.underline_to_camel) //数据库表字段映射到实体的命名策略
                 .setCapitalMode(true)//设置全局大写命名
-                .setInclude(TABLENAMES) //指定表
+                .setInclude(Constant.TABLENAMES) //指定表
                 //.setExclude("sequence"); //  不需要生成的表、
 
         .setEntityTableFieldAnnotationEnable(true); // 生成的字段 是否添加注解，默认false
@@ -116,11 +100,9 @@ public class CodeGenerator {
         //逻辑删除配置
         strategy.setLogicDeleteFieldName("is_delete");
 
-
         // 公共父类（基类需已存在）
-        strategy.setSuperEntityClass("com.cn.wkm.base.entity.BaseEntity");
-        strategy.setSuperEntityColumns("id", "update_by", "update_at", "create_by", "create_at","is_delete");
-
+        strategy.setSuperEntityClass(superEntity);
+        strategy.setSuperEntityColumns(superEntityColumns);
 
         //自动填充配置  GMT_MODIFIED
 
@@ -137,15 +119,14 @@ public class CodeGenerator {
         return strategy;
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args){
         //用来获取Mybatis-Plus.properties文件的配置信息
         AutoGenerator autoGenerator = new AutoGenerator();
         /**
          * 包配置
          */
         PackageConfig pc = new PackageConfig();
-        pc.setParent(PACKAGENAME)
+        pc.setParent(Constant.PACKAGENAME)
                 .setController("controller")
                 .setService("service")
                 .setServiceImpl("service.impl")
@@ -154,15 +135,18 @@ public class CodeGenerator {
 
         autoGenerator.setGlobalConfig(globalConfig())
                 .setDataSource(dataSourceConfig())
-                .setStrategy(dataTable())
+                .setStrategy(dataTable(superEntity,superEntityColumns))
                 .setPackageInfo(pc);
 
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
-        templateConfig.setXml(null); //使用模板引擎避免xml重复生成
-        templateConfig.setController(null);
-        templateConfig.setService(null);
-        templateConfig.setServiceImpl(null);
+        templateConfig.setXml(mapperXmlTemplate); //使用模板引擎，不写则默认会使用mybatis-plus generator中的模板
+        templateConfig.setMapper(mapperTemplate);
+        templateConfig.setController(controllerTemplate);
+        templateConfig.setService(serviceTemplate);
+        templateConfig.setServiceImpl(serviceImplTemplate);
+        templateConfig.setEntity(entityTemplate);
+
         autoGenerator.setTemplate(templateConfig);
 
         //指定模板引擎
@@ -171,7 +155,7 @@ public class CodeGenerator {
         autoGenerator.execute();
     }
 
-    public static InjectionConfig  injectionConfig() {
+    public static InjectionConfig injectionConfig() {
         /**
          * 自定义模板
          */
@@ -182,54 +166,74 @@ public class CodeGenerator {
             }
         };
         // 自定义controller的代码模板
-        String templatePath = "/templates/controller.java.ftl";
         // 自定义输出配置
         List<FileOutConfig> focList = new ArrayList<>();
         // 自定义配置会被优先输出
-        focList.add(new FileOutConfig(templatePath) {
+        focList.add(new FileOutConfig(controllerTemplate+templateType) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 + pc.getModuleName()
-                String expand = PROJECTPATH + "src/main/java/"+ PACKAGENAME.replace(".","/") + "/controller";
+                String expand = Constant.PROJECTPATH + "src/main/java/"+ Constant.PACKAGENAME.replace(".","/") + "/controller";
                 String entityFile = String.format((expand + File.separator + "%s" + ".java"), tableInfo.getControllerName());
                 return entityFile;
             }
         });
 
         // 自定义service的代码模板
-        templatePath = "/templates/service.java.ftl";
         // 自定义配置会被优先输出
-        focList.add(new FileOutConfig(templatePath) {
+        focList.add(new FileOutConfig(serviceTemplate+templateType) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 + pc.getModuleName()
-                String expand = PROJECTPATH + "src/main/java/"+ PACKAGENAME.replace(".","/") + "/service";
+                String expand = Constant.PROJECTPATH + "src/main/java/"+ Constant.PACKAGENAME.replace(".","/") + "/service";
                 String entityFile = String.format((expand + File.separator + "%s" + ".java"), tableInfo.getServiceName());
                 return entityFile;
             }
         });
 
         // 自定义service的代码模板
-        templatePath = "/templates/serviceImpl.java.ftl";
         // 自定义配置会被优先输出
-        focList.add(new FileOutConfig(templatePath) {
+        focList.add(new FileOutConfig(serviceImplTemplate+templateType) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 + pc.getModuleName()
-                String expand = PROJECTPATH + "src/main/java/"+ PACKAGENAME.replace(".","/") + "/service/impl";
+                String expand = Constant.PROJECTPATH + "src/main/java/"+ Constant.PACKAGENAME.replace(".","/") + "/service/impl";
                 String entityFile = String.format((expand + File.separator + "%s" + ".java"), tableInfo.getServiceImplName());
                 return entityFile;
             }
         });
 
         // 配置自定义输出模板
-        templatePath = "/templates/mapper.xml.ftl";
         // 自定义配置会被优先输出
-        focList.add(new FileOutConfig(templatePath) {
+        focList.add(new FileOutConfig(entityTemplate+templateType) {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 + pc.getModuleName()
-                return PROJECTPATH + "src/main/resources/mapper/"
+                String expand = Constant.PROJECTPATH + "src/main/java/"+ Constant.PACKAGENAME.replace(".","/") + "/entity";
+                String entityFile = String.format((expand + File.separator + "%s" + ".java"), tableInfo.getEntityName());
+                return entityFile;
+            }
+        });
+
+        // 配置自定义输出模板
+        // 自定义配置会被优先输出
+        focList.add(new FileOutConfig(mapperTemplate+templateType) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 + pc.getModuleName()
+                String expand = Constant.PROJECTPATH + "src/main/java/"+ Constant.PACKAGENAME.replace(".","/") + "/mapper";
+                String entityFile = String.format((expand + File.separator + "%s" + ".java"), tableInfo.getMapperName());
+                return entityFile;
+            }
+        });
+
+        // 配置自定义输出模板
+        // 自定义配置会被优先输出
+        focList.add(new FileOutConfig(mapperXmlTemplate+templateType) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 + pc.getModuleName()
+                return Constant.PROJECTPATH + "src/main/resources/mapper/"
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });

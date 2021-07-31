@@ -1,5 +1,7 @@
 package ${package.Controller};
-
+<#-- 基础模板 jetbrains://idea/navigate/reference?project=small-services&
+path=~\.m2\repository\com\baomidou\mybatis-plus-generator\3.4.1\
+mybatis-plus-generator-3.4.1.jar!\templates\controller.java.btl-->
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;

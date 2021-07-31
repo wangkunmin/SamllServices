@@ -38,7 +38,7 @@ import lombok.experimental.Accessors;
 @TableName("${table.name}")
 </#if>
 <#if swagger2>
-@ApiModel(value="${entity}对象", description="${table.comment!}")
+@ApiModel(value="${entity}实体对象", description="${table.comment!}")
 </#if>
 <#if superEntityClass??>
 public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if> {
@@ -92,7 +92,7 @@ public class ${entity} implements Serializable {
     </#if>
     <#-- 逻辑删除注解 -->
     <#if (logicDeleteFieldName!"") == field.name>
-    @TableLogic
+    @TableLogic(value = "0",delval = "1")
     </#if>
     private ${field.propertyType} ${field.propertyName};
 </#list>
