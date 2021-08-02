@@ -29,6 +29,8 @@ public class BaseCodeGenerator {
     public static String superEntity = "com.cn.wkm.base.entity.BaseEntity";
     public static String[] superEntityColumns ={"id", "update_by", "update_at", "create_by", "create_at","is_delete"};
 
+    public static String superController = "com.cn.wkm.base.api.IController";
+
     public static String templateType = ".ftl";
     public static String controllerTemplate = "/templates/controller.java";
     public static String serviceTemplate = "/templates/service.java";
@@ -103,6 +105,9 @@ public class BaseCodeGenerator {
         // 公共父类（基类需已存在）
         strategy.setSuperEntityClass(superEntity);
         strategy.setSuperEntityColumns(superEntityColumns);
+
+        // 公共父类（基类需已存在）
+        strategy.setSuperControllerClass(superController);
 
         //自动填充配置  GMT_MODIFIED
 

@@ -14,9 +14,7 @@ import com.cn.wkm.base.constant.Constant;
 import org.apache.tomcat.util.buf.StringUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -106,6 +104,9 @@ public class GeneratorEntity {
             @Override
             public void initMap() {
                 // to do nothing
+                Map<String,Object> objectMap= new HashMap<>();
+                objectMap.put("superEntityClassPackage",this.getConfig().getStrategyConfig().getSuperEntityClass());
+                this.setMap(objectMap);
             }
         };
         // 自定义输出配置
