@@ -80,7 +80,7 @@ public class GeneratorEntity {
                 .setServiceName("%sService")
                 .setServiceImplName("%sServiceImpl")
                 .setControllerName("%sController")
-                .setEntityName("%sPageParma")
+                .setEntityName("%sPageParam")
         ;
 
 
