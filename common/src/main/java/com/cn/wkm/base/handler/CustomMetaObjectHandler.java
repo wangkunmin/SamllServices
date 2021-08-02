@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.cn.wkm.base.entity.Base;
 import lombok.extern.log4j.Log4j2;
 import org.apache.ibatis.reflection.MetaObject;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

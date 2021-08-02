@@ -23,6 +23,9 @@ import ${superControllerClassPackage};
 import ${package.Service}.${table.serviceName};
 import ${package.Entity}.${entity};
 
+import lombok.extern.log4j.Log4j2;
+import javax.validation.Valid;
+
 /**
 * <p>
 * ${table.comment!} web控制器
@@ -40,6 +43,7 @@ import ${package.Entity}.${entity};
 </#if>
 @RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
 <#if kotlin>
+@Log4j2
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
  <#if superControllerClass??>
@@ -47,7 +51,6 @@ public class ${table.controllerName} extends ${superControllerClass} {
  <#else>
 public class ${table.controllerName} {
  </#if>
- private Logger logger = LoggerFactory.getLogger(getClass());
  @Autowired
  private ${table.serviceName} ${(table.serviceName)?uncap_first};
 
@@ -56,7 +59,7 @@ public class ${table.controllerName} {
  */
  @ApiOperation(value = "查询分页数据")
  @RequestMapping(value = "/list")
- public R<Page> findListByPage(@RequestParam(name = "pageNum", defaultValue = "1") int pageNum,@RequestParam(name = "pageSize", defaultValue = "20") int pageSize){
+ public R<Page> findListByPage(@Valid @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,@RequestParam(name = "pageSize", defaultValue = "20") int pageSize){
   return success(null);
  }
 

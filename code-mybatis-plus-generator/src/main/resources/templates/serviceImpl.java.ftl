@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @author ${author}
  * @since ${date}
  */
-@Service
+@Service("${(table.serviceName)?uncap_first}")
 <#if kotlin>
 open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
 

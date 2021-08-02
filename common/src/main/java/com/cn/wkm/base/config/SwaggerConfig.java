@@ -1,5 +1,6 @@
-package com.cn.wkm.config;
+package com.cn.wkm.base.config;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 
 @Configuration //说明这是一个配置类
 @EnableSwagger2// 该注解开启Swagger2的自动配置
+@EnableKnife4j //引入Knife4j生成文档，UI界面 https://doc.xiaominfo.com/knife4j/documentation/enhance.html
 @ComponentScan("com.cn.wkm.**")
 public class SwaggerConfig {
     @Bean

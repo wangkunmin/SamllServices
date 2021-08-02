@@ -1,0 +1,77 @@
+server:
+  port: 8080
+spring:
+  redis:
+    database: 0
+    host: 192.168.27.152
+    port: 6379
+    password: 123
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      username: small
+      password: 123456
+      url: jdbc:mysql://192.168.27.152:3306/small_config?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+      driver-class-name: com.mysql.jdbc.Driver
+      # 下面为连接池的补充设置，应用到上面所有数据源中
+      # 初始化大小，最小，最大
+      initial-size: 1
+      min-idle: 1
+      max-active: 32
+      # 配置获取连接等待超时的时间
+      max-wait: 15000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 30000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 256
+      use-global-data-source-stat: true
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 以下为监控配置
+      stat-view-servlet:
+        enabled: true
+      filter:
+        stat:
+          log-slow-sql: true
+          #超过0.5秒视为慢sql
+          slow-sql-millis: 500
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+            merge-allow: true
+        # 需要加上过滤器
+      filters: stat,mergeStat
+  cloud:
+    nacos:
+      # 服务注册
+      discovery:
+        server-addr: 192.168.27.152:8848
+        # 服务名
+        service: lead-nacos
+#      # nacos作为配置中心
+#      config:
+#        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+#        group: DEFAULT_GROUP
+#        file-extension: yaml
+#        # 可配置多个
+#        extension-configs[0]:
+#          # 唯一Id
+#          data-id: test.yaml
+#          # 分组
+#          group: DEFAULT_GROUP
+#          # 动态刷新
+#          refresh: true
+
+
+# Logger Config
+logging:
+  level:
+    com.cn.wkm: debug

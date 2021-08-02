@@ -1,8 +1,6 @@
 package com.cn.wkm.base.constant;
 
 
-import com.cn.wkm.utils.BaseCodeGenerator;
-
 /**
  * @ClassName Constant
  * @Description TODO
@@ -36,6 +34,6 @@ public class Constant {
     public static String PROJECTPATH = "";
     static {
         // 当前项目绝对路径
-        PROJECTPATH = BaseCodeGenerator.class.getClassLoader().getResource("").getPath().replace("target/classes/","");
+        PROJECTPATH = Constant.class.getClassLoader().getResource("").getPath().replace("target/classes/","");
     }
 }

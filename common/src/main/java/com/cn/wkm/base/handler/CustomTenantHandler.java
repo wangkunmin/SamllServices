@@ -1,7 +1,7 @@
 package com.cn.wkm.base.handler;
 
+import cn.hutool.core.collection.ListUtil;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
-import com.google.common.collect.Lists;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
 
@@ -16,9 +16,7 @@ import java.util.List;
  */
 public class CustomTenantHandler implements TenantLineHandler {
     //不走租户的表
-    private static List<String> IgnoreTable = Lists.newArrayList(
-            "sys_database"
-    );
+    private static List<String> IgnoreTable = ListUtil.toList("sys_database");
     @Override
     public Expression getTenantId() {
         return new LongValue(returnTenantId());
