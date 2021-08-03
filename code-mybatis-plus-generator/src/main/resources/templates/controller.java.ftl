@@ -23,7 +23,7 @@ import ${superControllerClassPackage};
 import ${package.Service}.${table.serviceName};
 import ${package.Entity}.${entity};
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import javax.validation.Valid;
 
 /**
@@ -43,7 +43,7 @@ import javax.validation.Valid;
 </#if>
 @RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
 <#if kotlin>
-@Log4j2
+@Slf4j
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
  <#if superControllerClass??>

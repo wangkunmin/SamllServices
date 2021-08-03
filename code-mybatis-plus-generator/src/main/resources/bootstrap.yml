@@ -1,0 +1,54 @@
+
+spring:
+  application:
+    name: generator-service
+  cloud:
+    nacos:
+      # 服务注册
+      discovery:
+        # 是否启用
+        enabled: true
+        # nacos服务地址
+        server-addr: 192.168.27.152:8848
+        # 服务名
+        service: ${spring.application.name}
+        # 组名
+        group: DEFAULT
+        # 权重
+        weight: 2
+        # 元数据
+        metadata:
+          auth: sty
+          version: 1.0
+        # 日志名
+        log-name: ${spring.application.name}
+        # 是否开启watch
+        watch: true
+        # 多长时间从服务端拉取一次
+        watch-delay: 30000
+        # 集群名称
+        cluster-name: DEFAULT
+        # 是否开启注册，如果为false，不会将自身注册上去
+        register-enabled: true
+        # https
+        secure: false
+        # nacos作为配置中心
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: d2443b64-30a3-4b08-bc84-6b95ece1dad6
+        group: DEFAULT_GROUP
+#          在 Nacos Spring Cloud 中，dataId 的完整格式如下：
+#          prefix 默认 spring.application.name
+#          dataId = ${prefix}-${spring.profile.active}.${file-extension}
+        prefix: nacos-config
+        #配置文件类型
+        file-extension: YAML
+#          namespace: 2df000c7-fc1f-4f29-aa6e-964dffebc636
+#        # 可配置多个
+#        extension-configs[0]:
+#          # 唯一Id
+#          data-id: test.yaml
+#          # 分组
+#          group: DEFAULT_GROUP
+#          # 动态刷新
+#          refresh: true
